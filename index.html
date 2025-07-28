@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>😋دادلی😋 - فروشگاه آنلاین</title>
+  <style>
+    @import url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir.css');
+
+    body {
+      font-family: 'Vazir', sans-serif;
+      background: #f3f7ff;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: #4b7bec;
+      color: white;
+      padding: 15px;
+      font-size: 24px;
+      text-align: center;
+    }
+
+    #admin-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #3867d6;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+      padding: 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 20px;
+      padding: 15px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .card img {
+      max-width: 100%;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 12px;
+    }
+
+    .footer {
+      background: #dff0ff;
+      text-align: center;
+      padding: 20px;
+      font-size: 16px;
+    }
+
+    .footer a {
+      color: #333;
+      text-decoration: none;
+    }
+
+    /* مدیریت */
+    #admin {
+      display: none;
+      padding: 30px;
+      background: #fff;
+      height: 100vh;
+    }
+
+    #admin input, #admin button {
+      padding: 10px;
+      margin: 10px;
+      width: 90%;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+    }
+
+    .edit-btn {
+      background: #2bcbba;
+      color: white;
+      border: none;
+      padding: 6px 10px;
+      border-radius: 10px;
+      margin-top: 8px;
+    }
+
+    .save-btn {
+      background: #45aaf2;
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 14px;
+    }
+
+    #back {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: #4b7bec;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 12px;
+      cursor: pointer;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    😋 فروشگاه دادلی 😋
+    <button id="admin-btn" onclick="showLogin()">مدیریت</button>
+  </header>
+
+  <div id="products" class="products">
+    <div class="card">
+      <img src="https://via.placeholder.com/200x120?text=هویچ+سرخ+شده" />
+      <h3>هویچ سرخ شده</h3>
+      <p>قیمت: ۲۰۰۰۰ تومان</p>
+    </div>
+    <div class="card">
+      <img src="https://via.placeholder.com/200x120?text=پیاز+سرخ+شده" />
+      <h3>پیاز سرخ شده</h3>
+      <p>قیمت: ۱۵۰۰۰ تومان</p>
+    </div>
+  </div>
+
+  <!-- مدیریت -->
+  <div id="login" style="display:none; padding:20px;">
+    <h3>ورود به مدیریت</h3>
+    <input type="password" id="pass" placeholder="رمز عبور" />
+    <button onclick="checkLogin()">ورود</button>
+    <p id="err" style="color:red;"></p>
+  </div>
+
+  <div id="admin">
+    <button id="back" onclick="hideAdmin()">بازگشت</button>
+    <h3>مدیریت محصولات</h3>
+    <input id="p-name" placeholder="نام محصول" />
+    <input id="p-price" placeholder="قیمت (تومان)" />
+    <input id="p-img" placeholder="لینک عکس محصول" />
+    <button class="save-btn" onclick="addProduct()">ذخیره</button>
+
+    <div id="product-list"></div>
+  </div>
+
+  <div class="footer">
+    <div>📞 <a href="tel:09142467253">شماره تماس: 09142467253</a></div>
+    <div style="margin-top:10px;">
+      <a href="https://rubika.ir/DADLI_13">آدرس روبینو</a>
+    </div>
+  </div>
+
+  <script>
+    const password = "m11031103m";
+
+    function showLogin() {
+      document.getElementById("login").style.display = "block";
+    }
+
+    function checkLogin() {
+      const val = document.getElementById("pass").value;
+      if (val === password) {
+        document.getElementById("login").style.display = "none";
+        document.getElementById("admin").style.display = "block";
+        document.getElementById("products").style.display = "none";
+        document.getElementById("back").style.display = "inline-block";
+      } else {
+        document.getElementById("err").innerText = "رمز عبور نادرست";
+      }
+    }
+
+    function hideAdmin() {
+      document.getElementById("admin").style.display = "none";
+      document.getElementById("products").style.display = "grid";
+      document.getElementById("back").style.display = "none";
+    }
+
+    function addProduct() {
+      const name = document.getElementById("p-name").value;
+      const price = document.getElementById("p-price").value;
+      const img = document.getElementById("p-img").value;
+
+      const div = document.createElement("div");
+      div.className = "card";
+      div.innerHTML = `<img src="${img}" />
+                       <h3>${name}</h3>
+                       <p>قیمت: ${price} تومان</p>`;
+      document.getElementById("products").appendChild(div);
+      alert("محصول اضافه شد!");
+    }
+  </script>
+</body>
+</html>
